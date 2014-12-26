@@ -7,6 +7,7 @@ import com.parse.ParseObject;
 
 /**
  * Created by Sylly on 2014-12-26.
+ * testing git...
  */
 public class Application extends android.app.Application{
 
