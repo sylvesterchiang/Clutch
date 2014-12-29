@@ -27,14 +27,6 @@ public class Person extends ParseObject {
         put ("lastName", lastName);
     }
 
-    public Date getDate(){
-        return getDate("date");
-    }
-
-    public void setDate(Date date){
-        put ("date", date);
-    }
-
     public static ParseQuery<Person> getQuery(){
         return ParseQuery.getQuery(Person.class);
     }

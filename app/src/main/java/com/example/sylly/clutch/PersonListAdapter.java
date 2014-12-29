@@ -10,19 +10,20 @@ import android.widget.Toast;
 
 import com.example.sylly.clutch.utils.UICircularImage;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
- * Created by Sylly on 2014-12-26.
+ * Created by Sylly on 2014-12-28.
  */
-class TransitionListAdapter extends BaseAdapter {
+class PersonListAdapter extends BaseAdapter {
 
     ViewHolder viewHolder;
 
-    private ArrayList<ListItem> mItems = new ArrayList<ListItem>();
+    private ArrayList<Person> mItems = new ArrayList<Person>();
     private Context mContext;
 
-    public TransitionListAdapter(Context context, ArrayList<ListItem> list) {
+    public PersonListAdapter(Context context, ArrayList<Person> list) {
         mContext = context;
         mItems = list;
     }
@@ -66,8 +67,9 @@ class TransitionListAdapter extends BaseAdapter {
             // just use the viewHolder
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        final String item = mItems.get(position).getTitle();
-        final String desc = mItems.get(position).getDesc();
+
+        final String item = mItems.get(position).getFirstName();
+        final String desc = mItems.get(position).getLastName();
         //final int imageid = mItems.get(position).getImageId();
 
         //viewHolder.image.setImageResource(imageid);

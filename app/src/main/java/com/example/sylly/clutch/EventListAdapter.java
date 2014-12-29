@@ -1,28 +1,32 @@
 package com.example.sylly.clutch;
 
+/**
+ * Created by Sylly on 2014-12-28.
+ */
+
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import android.widget.Toast;
 
 import com.example.sylly.clutch.utils.UICircularImage;
 
-import java.util.ArrayList;
-
-/**
- * Created by Sylly on 2014-12-26.
- */
-class TransitionListAdapter extends BaseAdapter {
+class EventListAdapter extends BaseAdapter {
 
     ViewHolder viewHolder;
 
-    private ArrayList<ListItem> mItems = new ArrayList<ListItem>();
+    private ArrayList<Event> mItems = new ArrayList<Event>();
     private Context mContext;
 
-    public TransitionListAdapter(Context context, ArrayList<ListItem> list) {
+    public EventListAdapter(Context context, ArrayList<Event> list) {
         mContext = context;
         mItems = list;
     }
@@ -66,8 +70,11 @@ class TransitionListAdapter extends BaseAdapter {
             // just use the viewHolder
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        final String item = mItems.get(position).getTitle();
-        final String desc = mItems.get(position).getDesc();
+
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+
+        final String item = mItems.get(position).getName();
+        final String desc = df.format(mItems.get(position).getDate());
         //final int imageid = mItems.get(position).getImageId();
 
         //viewHolder.image.setImageResource(imageid);

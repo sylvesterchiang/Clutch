@@ -1,21 +1,32 @@
 package com.example.sylly.clutch;
 
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 
 import com.example.sylly.clutch.menu.ResideMenu;
 import com.example.sylly.clutch.utils.UISwipableList;
 import com.example.sylly.clutch.menu.ResideMenu;
 import com.example.sylly.clutch.menu.ResideMenuItem;
+import com.parse.FindCallback;
+import com.parse.ParseACL;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Sylly on 2014-12-26.
@@ -25,7 +36,7 @@ public class TransitionListFragment extends Fragment {
     //Views & Widgets
     private View parentView;
     private UISwipableList listView;
-    private TransitionListAdapter mAdapter;
+    private EventListAdapter mAdapter;
     private ResideMenu resideMenu;
 
     //Vars
@@ -42,7 +53,7 @@ public class TransitionListFragment extends Fragment {
     }
 
     private void initView(){
-        mAdapter = new TransitionListAdapter(getActivity(), getListData());
+        mAdapter = new EventListAdapter(getActivity(), getEventData());
         listView.setActionLayout(R.id.hidden_view);
         listView.setItemLayout(R.id.front_layout);
         listView.setAdapter(mAdapter);
@@ -50,7 +61,7 @@ public class TransitionListFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View viewa, int i, long l) {
-                ListItem item = (ListItem) listView.getAdapter().getItem(i);
+                //ListItem item = (ListItem) listView.getAdapter().getItem(i);
 
                 /*
                 //Intent intent = new Intent(getActivity(), TransitionDetailActivity.class);
@@ -78,6 +89,44 @@ public class TransitionListFragment extends Fragment {
                 changeFragment(new PersonListFragment());
             }
         });
+    }
+
+    private void sendData(){
+
+            Event post = new Event();
+
+            post.setName("Please Work");
+            post.setDate(new Date());
+            ParseACL acl = new ParseACL();
+            acl.setPublicReadAccess(true);
+            post.setACL(acl);
+
+            post.saveInBackground(new SaveCallback(){
+                @Override
+                public void done(ParseException e){
+                }
+            });
+    }
+
+    private ArrayList<Event> getEventData(){
+
+        final ArrayList<Event> eventData = new ArrayList<Event>();
+
+        ParseQuery<Event> query = Event.getQuery();
+        query.findInBackground(new FindCallback<Event>() {
+            public void done(List<Event> objects, com.parse.ParseException e) {
+            if (e == null){
+                for (int i = 0; i < objects.size(); i++){
+                    Event temp = new Event();
+                    temp.setName(objects.get(i).getName());
+                    temp.setDate(objects.get(i).getDate());
+                    eventData.add(temp);
+                }
+            }
+            }
+        });
+
+        return eventData;
     }
 
     private ArrayList<ListItem> getListData(){
